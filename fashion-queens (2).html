@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Fashion Queens & King ✨</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&family=Tenor+Sans&family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+/* ── Root Palette ── */
+:root {
+  --black:   #080510;
+  --deep:    #100a20;
+  --rose:    #f4a8c7;
+  --pink:    #f9d0e0;
+  --violet:  #b77fda;
+  --lavender:#d6b4fc;
+  --gold:    #e8c97a;
+  --gold2:   #f5e0a0;
+  --white:   #fdf6ff;
+  --glow-r:  rgba(244,168,199,.45);
+  --glow-v:  rgba(183,127,218,.45);
+  --glow-g:  rgba(232,201,122,.35);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+
+html{scroll-behavior:smooth;}
+
+body{
+  background:var(--black);
+  color:var(--white);
+  font-family:'Tenor Sans',sans-serif;
+  overflow-x:hidden;
+  cursor:none;
+}
+
+/* ── Custom cursor ── */
+.cursor{
+  position:fixed;width:14px;height:14px;
+  background:var(--gold);border-radius:50%;
+  pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:transform .1s,width .2s,height .2s,opacity .2s;
+  mix-blend-mode:difference;
+}
+.cursor-ring{
+  position:fixed;width:38px;height:38px;
+  border:1.5px solid var(--rose);border-radius:50%;
+  pointer-events:none;z-index:9998;
+  transform:translate(-50%,-50%);
+  transition:transform .18s ease,width .25s,height .25s;
+  opacity:.7;
+}
+
+/* ── Stars background ── */
+#stars-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;}
+
+/* ── Noise overlay ── */
+body::after{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:1;
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.2rem 3rem;
+  background:linear-gradient(to bottom,rgba(8,5,16,.9),transparent);
+  backdrop-filter:blur(4px);
+}
+.nav-logo{
+  font-family:'Cinzel Decorative',cursive;
+  font-size:1rem;letter-spacing:.15em;
+  background:linear-gradient(90deg,var(--gold),var(--rose),var(--lavender));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.nav-links{display:flex;gap:2.4rem;list-style:none;}
+.nav-links a{
+  color:rgba(255,255,255,.6);font-size:.82rem;
+  letter-spacing:.12em;text-transform:uppercase;text-decoration:none;
+  transition:color .3s;
+}
+.nav-links a:hover{color:var(--gold);}
+
+/* ── HERO ── */
+#hero{
+  position:relative;z-index:2;
+  min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:2rem;
+  overflow:hidden;
+}
+.hero-glow{
+  position:absolute;border-radius:50%;filter:blur(100px);pointer-events:none;
+}
+.hg1{width:600px;height:600px;background:rgba(183,127,218,.2);top:-15%;left:-20%;animation:drift 10s ease-in-out infinite alternate;}
+.hg2{width:500px;height:500px;background:rgba(244,168,199,.15);bottom:-10%;right:-15%;animation:drift 12s ease-in-out infinite alternate-reverse;}
+.hg3{width:300px;height:300px;background:rgba(232,201,122,.12);top:40%;left:40%;animation:drift 8s ease-in-out infinite alternate;}
+@keyframes drift{from{transform:translate(0,0);}to{transform:translate(30px,20px);}}
+
+.hero-label{
+  font-size:.72rem;letter-spacing:.35em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:1.6rem;
+  animation:fadeUp 1s .2s both;
+}
+h1.hero-title{
+  font-family:'Cinzel Decorative',cursive;
+  font-size:clamp(2.2rem,7vw,5.5rem);
+  line-height:1.1;letter-spacing:.04em;
+  background:linear-gradient(135deg,var(--gold2) 0%,var(--rose) 40%,var(--lavender) 70%,var(--gold) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  filter:drop-shadow(0 0 30px rgba(232,201,122,.4));
+  animation:fadeUp 1s .4s both;
+}
+.hero-slogan{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:clamp(1.2rem,3vw,1.8rem);
+  color:rgba(255,255,255,.65);margin:1.4rem 0;
+  animation:fadeUp 1s .6s both;
+}
+.hero-sub{
+  font-size:.95rem;letter-spacing:.06em;
+  color:rgba(255,255,255,.45);max-width:520px;line-height:1.9;
+  margin-bottom:2.8rem;animation:fadeUp 1s .8s both;
+}
+.btn{
+  display:inline-block;padding:.9rem 2.6rem;
+  border:1px solid rgba(232,201,122,.5);border-radius:50px;
+  font-size:.82rem;letter-spacing:.2em;text-transform:uppercase;
+  text-decoration:none;
+  background:linear-gradient(135deg,rgba(232,201,122,.12),rgba(183,127,218,.12));
+  color:var(--gold2);
+  transition:all .35s;
+  position:relative;overflow:hidden;
+  animation:fadeUp 1s 1s both;
+}
+.btn::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,var(--gold),var(--rose),var(--lavender));
+  opacity:0;transition:opacity .35s;border-radius:50px;
+}
+.btn:hover::before{opacity:.15;}
+.btn:hover{
+  border-color:var(--gold);
+  box-shadow:0 0 30px rgba(232,201,122,.3),0 0 60px rgba(183,127,218,.2);
+  transform:translateY(-2px);
+}
+.btn span{position:relative;z-index:1;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+
+/* ── Section wrapper ── */
+section{position:relative;z-index:2;padding:7rem 2rem;}
+.section-label{
+  font-size:.7rem;letter-spacing:.4em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:.8rem;
+}
+.section-title{
+  font-family:'Cormorant Garamond',serif;font-weight:300;
+  font-size:clamp(2rem,5vw,3.5rem);
+  background:linear-gradient(90deg,var(--white),var(--lavender));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:1rem;
+}
+
+/* ── ABOUT ── */
+#about{background:linear-gradient(180deg,var(--black),var(--deep));}
+.about-inner{max-width:900px;margin:0 auto;text-align:center;}
+.about-text{
+  font-family:'Cormorant Garamond',serif;font-size:1.25rem;
+  color:rgba(255,255,255,.55);line-height:2;font-style:italic;
+  margin:2rem 0 3rem;
+}
+.about-traits{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:1rem;
+}
+.trait{
+  border:1px solid rgba(232,201,122,.2);border-radius:40px;
+  padding:.5rem 1.4rem;font-size:.82rem;letter-spacing:.08em;
+  color:rgba(255,255,255,.55);
+  background:rgba(255,255,255,.03);
+  transition:all .3s;
+}
+.trait:hover{border-color:var(--rose);color:var(--rose);box-shadow:0 0 18px var(--glow-r);}
+
+/* profiles grid */
+.profiles{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:1.5rem;max-width:1100px;margin:4rem auto 0;
+}
+.profile-card{
+  position:relative;border-radius:24px;overflow:hidden;
+  border:1px solid rgba(255,255,255,.08);
+  background:linear-gradient(160deg,rgba(255,255,255,.04),rgba(255,255,255,.01));
+  padding:2.5rem 1.8rem 2rem;
+  transition:transform .4s cubic-bezier(.22,1,.36,1),box-shadow .4s;
+  text-align:center;
+}
+.profile-card::before{
+  content:'';position:absolute;inset:0;border-radius:24px;
+  background:radial-gradient(circle at 50% 0%,var(--glow-color,.3rem),transparent 70%);
+  opacity:0;transition:opacity .4s;
+}
+.profile-card:hover{transform:translateY(-10px);box-shadow:0 20px 60px var(--glow-color);}
+.profile-card:hover::before{opacity:1;}
+.profile-card.ines{--glow-color:rgba(244,168,199,.25);}
+.profile-card.ryad{--glow-color:rgba(183,127,218,.25);}
+.profile-card.chaima{--glow-color:rgba(214,180,252,.25);}
+.profile-card.mohamed{--glow-color:rgba(232,201,122,.25);}
+
+.profile-avatar{
+  width:90px;height:90px;border-radius:50%;
+  margin:0 auto 1.2rem;font-size:3rem;
+  display:flex;align-items:center;justify-content:center;
+  border:2px solid rgba(255,255,255,.1);
+  transition:border-color .3s,box-shadow .3s;
+}
+.profile-card:hover .profile-avatar{
+  border-color:var(--glow-color);
+  box-shadow:0 0 24px var(--glow-color);
+}
+.profile-name{
+  font-family:'Cinzel Decorative',cursive;
+  font-size:1.05rem;letter-spacing:.05em;margin-bottom:.5rem;
+}
+.ines .profile-name{color:var(--rose);}
+.ryad .profile-name{color:var(--violet);}
+.chaima .profile-name{color:var(--lavender);}
+.mohamed .profile-name{color:var(--gold);}
+.profile-role{
+  font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;
+  color:rgba(255,255,255,.35);margin-bottom:1rem;
+}
+.profile-desc{
+  font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;
+  color:rgba(255,255,255,.5);line-height:1.7;
+}
+
+/* ── GALLERY ── */
+#gallery{background:var(--deep);}
+.gallery-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:1rem;max-width:1100px;margin:3rem auto 0;
+}
+.gallery-item{
+  border-radius:16px;overflow:hidden;
+  aspect-ratio:1;
+  display:flex;align-items:center;justify-content:center;
+  font-size:4rem;
+  border:1px solid rgba(255,255,255,.07);
+  position:relative;
+  transition:transform .4s cubic-bezier(.22,1,.36,1);
+  cursor:pointer;
+}
+.gallery-item::after{
+  content:attr(data-caption);
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.85),transparent);
+  display:flex;align-items:flex-end;justify-content:center;
+  padding:1.2rem;
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:.95rem;color:rgba(255,255,255,.8);
+  opacity:0;transition:opacity .35s;
+  border-radius:16px;
+}
+.gallery-item:hover{transform:scale(1.04);z-index:5;}
+.gallery-item:hover::after{opacity:1;}
+
+.g1{background:linear-gradient(135deg,#1a0a20,#2d1040);}
+.g2{background:linear-gradient(135deg,#200a16,#3d1028);}
+.g3{background:linear-gradient(135deg,#0a0a20,#1a0a40);}
+.g4{background:linear-gradient(135deg,#1a1400,#302000);}
+.g5{background:linear-gradient(135deg,#1a0a1a,#2d0a2d);grid-column:span 2;}
+.g6{background:linear-gradient(135deg,#0a1a10,#0a2810);}
+
+/* ── QUOTES ── */
+#quotes{background:linear-gradient(180deg,var(--deep),var(--black));}
+.quotes-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1.5rem;max-width:1100px;margin:3rem auto 0;
+}
+.quote-card{
+  border-radius:20px;padding:2.5rem 2rem;text-align:center;
+  border:1px solid rgba(255,255,255,.07);
+  background:linear-gradient(160deg,rgba(255,255,255,.04),rgba(255,255,255,.01));
+  position:relative;overflow:hidden;
+  transition:transform .3s,box-shadow .3s;
+}
+.quote-card::before{
+  content:'\201C';
+  position:absolute;top:-1rem;left:1rem;
+  font-family:'Cormorant Garamond',serif;font-size:8rem;
+  color:rgba(232,201,122,.06);line-height:1;pointer-events:none;
+}
+.quote-card:hover{transform:translateY(-6px);box-shadow:0 16px 48px rgba(183,127,218,.15);}
+.quote-text{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:1.15rem;line-height:1.8;
+  color:rgba(255,255,255,.7);position:relative;z-index:1;
+}
+.quote-star{font-size:1.1rem;margin-top:1rem;opacity:.6;}
+
+/* ── FOOTER ── */
+footer{
+  position:relative;z-index:2;
+  text-align:center;padding:4rem 2rem;
+  border-top:1px solid rgba(255,255,255,.06);
+  background:var(--black);
+}
+.footer-logo{
+  font-family:'Cinzel Decorative',cursive;font-size:1.1rem;
+  background:linear-gradient(90deg,var(--gold),var(--rose),var(--lavender),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  background-size:200%;animation:shimmer 3s linear infinite;
+  margin-bottom:1rem;
+}
+@keyframes shimmer{to{background-position:200% center;}}
+.footer-names{
+  font-size:.85rem;letter-spacing:.12em;color:rgba(255,255,255,.35);
+}
+.footer-divider{
+  width:60px;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  margin:1.5rem auto;
+}
+
+/* ── Music button ── */
+.music-btn{
+  position:fixed;bottom:2rem;right:2rem;z-index:200;
+  width:56px;height:56px;border-radius:50%;
+  border:1px solid rgba(232,201,122,.4);
+  background:rgba(8,5,16,.85);
+  backdrop-filter:blur(16px);
+  display:flex;align-items:center;justify-content:center;
+  cursor:none;
+  box-shadow:0 0 20px rgba(183,127,218,.2),0 0 40px rgba(232,201,122,.1);
+  transition:all .3s;
+  color:var(--gold);font-size:1.3rem;
+  overflow:visible;
+}
+.music-btn:hover{
+  border-color:var(--gold);
+  box-shadow:0 0 30px rgba(232,201,122,.4),0 0 60px rgba(183,127,218,.3);
+  transform:scale(1.1);
+}
+.music-btn.playing{
+  border-color:var(--rose);
+  box-shadow:0 0 24px rgba(244,168,199,.5),0 0 50px rgba(183,127,218,.3);
+  animation:musicPulse 2s ease-in-out infinite;
+}
+@keyframes musicPulse{
+  0%,100%{box-shadow:0 0 24px rgba(244,168,199,.5),0 0 50px rgba(183,127,218,.3);}
+  50%{box-shadow:0 0 40px rgba(244,168,199,.7),0 0 80px rgba(183,127,218,.5);}
+}
+.music-tooltip{
+  position:absolute;right:68px;top:50%;transform:translateY(-50%);
+  background:rgba(8,5,16,.9);border:1px solid rgba(232,201,122,.2);
+  border-radius:30px;padding:.3rem .9rem;
+  font-size:.7rem;letter-spacing:.1em;color:rgba(255,255,255,.6);
+  white-space:nowrap;pointer-events:none;
+  opacity:0;transition:opacity .2s;font-family:'Tenor Sans',sans-serif;
+}
+.music-btn:hover .music-tooltip{opacity:1;}
+
+/* ── Scroll reveal ── */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1);}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+/* ── Responsive ── */
+@media(max-width:768px){
+  nav{padding:1rem 1.5rem;}
+  .nav-links{gap:1.4rem;}
+  .nav-links a{font-size:.7rem;}
+  .g5{grid-column:span 1;}
+}
+@media(max-width:480px){
+  .nav-links{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div class="cursor" id="cur"></div>
+<div class="cursor-ring" id="curRing"></div>
+
+<!-- Stars -->
+<canvas id="stars-canvas"></canvas>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">FQ&K</div>
+  <ul class="nav-links">
+    <li><a href="#hero">Accueil</a></li>
+    <li><a href="#about">À propos</a></li>
+    <li><a href="#profiles">Profils</a></li>
+    <li><a href="#gallery">Galerie</a></li>
+    <li><a href="#quotes">Citations</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-glow hg1"></div>
+  <div class="hero-glow hg2"></div>
+  <div class="hero-glow hg3"></div>
+  <p class="hero-label">✦ Été 2025 ✦</p>
+  <h1 class="hero-title">Fashion Queens<br>& King ✨</h1>
+  <p class="hero-slogan">Rêves partagés, pour la vie 💫</p>
+  <p class="hero-sub">Une équipe, une énergie, des souvenirs inoubliables</p>
+  <a href="#about" class="btn"><span>Entrer dans notre univers</span></a>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-inner">
+    <p class="section-label reveal">✦ Notre histoire ✦</p>
+    <h2 class="section-title reveal">À Propos</h2>
+    <p class="about-text reveal">
+      Ils sortent ensemble, ils rient ensemble,<br>
+      ils vivent chaque moment à fond.
+    </p>
+    <div class="about-traits reveal">
+      <span class="trait">Inès — stylée, drôle, met toujours l'ambiance 🌹</span>
+      <span class="trait">Ryad — confiante, élégante, une vraie queen 👑</span>
+      <span class="trait">Chaima — douce, toujours là pour les autres 🦋</span>
+      <span class="trait">Mohamed — fidèle, posé, énergie tranquille mais essentielle 🌙</span>
+    </div>
+  </div>
+</section>
+
+<!-- PROFILES -->
+<section id="profiles" style="background:var(--black);">
+  <div style="max-width:1100px;margin:0 auto;text-align:center;">
+    <p class="section-label reveal">✦ Le crew ✦</p>
+    <h2 class="section-title reveal">Nos Profils</h2>
+    <div class="profiles">
+      <div class="profile-card ines reveal">
+        <div class="profile-avatar" style="background:linear-gradient(135deg,#3d1028,#200a16);">🌹</div>
+        <h3 class="profile-name">Inès</h3>
+        <p class="profile-role">La Styliste</p>
+        <p class="profile-desc">Stylée, drôle, toujours prête à sortir. Elle met l'ambiance partout où elle passe — sans elle, la soirée ne commence pas vraiment.</p>
+      </div>
+      <div class="profile-card ryad reveal">
+        <div class="profile-avatar" style="background:linear-gradient(135deg,#1a0a30,#2d1050);">👑</div>
+        <h3 class="profile-name">Ryad</h3>
+        <p class="profile-role">La Queen</p>
+        <p class="profile-desc">Confiante, forte personnalité, toujours élégante. Une vraie queen — elle n'a pas besoin de le dire, ça se voit.</p>
+      </div>
+      <div class="profile-card chaima reveal">
+        <div class="profile-avatar" style="background:linear-gradient(135deg,#10082a,#1e1040);">🦋</div>
+        <h3 class="profile-name">Chaima</h3>
+        <p class="profile-role">La Douce</p>
+        <p class="profile-desc">Douce, proche d'Inès, toujours là pour les autres. Calme mais importante — le groupe ne serait pas le même sans sa présence.</p>
+      </div>
+      <div class="profile-card mohamed reveal">
+        <div class="profile-avatar" style="background:linear-gradient(135deg,#201400,#3a2200);">🌙</div>
+        <h3 class="profile-name">Mohamed</h3>
+        <p class="profile-role">Le Chill King</p>
+        <p class="profile-desc">Fidèle, posé, toujours avec le groupe. Une énergie tranquille mais essentielle — le pilier discret sur qui tout le monde peut compter.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div style="max-width:1100px;margin:0 auto;text-align:center;">
+    <p class="section-label reveal">✦ Nos moments ✦</p>
+    <h2 class="section-title reveal">Galerie</h2>
+    <div class="gallery-grid reveal">
+      <div class="gallery-item g1" data-caption="Les soirées inoubliables ✨">🍾</div>
+      <div class="gallery-item g2" data-caption="Fashion & vibes 💅">💃</div>
+      <div class="gallery-item g3" data-caption="Nuits étoilées 🌙">🌃</div>
+      <div class="gallery-item g4" data-caption="Briller ensemble 🌟">✨</div>
+      <div class="gallery-item g5" data-caption="Le crew complet — Mohamed, Ryad, Chaima & Inès 💖">🫶</div>
+      <div class="gallery-item g6" data-caption="Pour la vie 💫">🎉</div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTES -->
+<section id="quotes">
+  <div style="max-width:1100px;margin:0 auto;text-align:center;">
+    <p class="section-label reveal">✦ Nos mots ✦</p>
+    <h2 class="section-title reveal">Citations</h2>
+    <div class="quotes-grid">
+      <div class="quote-card reveal">
+        <p class="quote-text">Fashion queens 👑</p>
+        <p class="quote-star">✦ ✦ ✦</p>
+      </div>
+      <div class="quote-card reveal">
+        <p class="quote-text">Rêves partagés pour la vie</p>
+        <p class="quote-star">✦ ✦ ✦</p>
+      </div>
+      <div class="quote-card reveal">
+        <p class="quote-text">Toujours ensemble,<br>quoi qu'il arrive</p>
+        <p class="quote-star">✦ ✦ ✦</p>
+      </div>
+      <div class="quote-card reveal">
+        <p class="quote-text">Les soirées, les rires, les souvenirs</p>
+        <p class="quote-star">✦ ✦ ✦</p>
+      </div>
+      <div class="quote-card reveal">
+        <p class="quote-text">Une team, une famille 💖</p>
+        <p class="quote-star">✦ ✦ ✦</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Fashion Queens & King</div>
+  <div class="footer-divider"></div>
+  <p class="footer-names">Mohamed, Ryad, Chaima &amp; Inès 💖</p>
+</footer>
+
+<!-- Music button -->
+<button class="music-btn" id="musicBtn" aria-label="Musique">
+  <span id="musicIcon">🎵</span>
+  <span class="music-tooltip" id="musicTip">Activer la musique</span>
+</button>
+
+<script>
+/* ── Cursor ── */
+const cur = document.getElementById('cur');
+const ring = document.getElementById('curRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+(function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);})();
+document.querySelectorAll('a,.btn,.profile-card,.gallery-item,.quote-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.transform='translate(-50%,-50%) scale(2.5)';ring.style.transform='translate(-50%,-50%) scale(1.6)';ring.style.borderColor='var(--gold)';});
+  el.addEventListener('mouseleave',()=>{cur.style.transform='translate(-50%,-50%) scale(1)';ring.style.transform='translate(-50%,-50%) scale(1)';ring.style.borderColor='var(--rose)';});
+});
+
+/* ── Stars canvas ── */
+const canvas=document.getElementById('stars-canvas');
+const ctx=canvas.getContext('2d');
+let W,H,stars=[];
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
+function initStars(){
+  stars=[];
+  const count=Math.floor(W*H/3000);
+  for(let i=0;i<count;i++){
+    stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.2+.2,a:Math.random(),da:.003+Math.random()*.004,col:['#e8c97a','#f4a8c7','#d6b4fc','#fff'][Math.floor(Math.random()*4)]});
+  }
+}
+function drawStars(){
+  ctx.clearRect(0,0,W,H);
+  stars.forEach(s=>{
+    s.a+=s.da;if(s.a>1||s.a<0)s.da*=-1;
+    ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    ctx.fillStyle=s.col;ctx.globalAlpha=s.a*.9;ctx.fill();
+  });
+  ctx.globalAlpha=1;requestAnimationFrame(drawStars);
+}
+resize();initStars();drawStars();
+window.addEventListener('resize',()=>{resize();initStars();});
+
+/* ── Scroll reveal ── */
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+/* ── Stagger profile cards ── */
+document.querySelectorAll('.profile-card').forEach((c,i)=>{c.style.transitionDelay=`${i*.1}s`;});
+document.querySelectorAll('.quote-card').forEach((c,i)=>{c.style.transitionDelay=`${i*.08}s`;});
+
+/* ── Music (Web Audio API — dreamy lo-fi vibe inspiré Maes) ── */
+let audioCtx=null, playing=false, masterGain=null, loopTimeout=null;
+const musicBtn=document.getElementById('musicBtn');
+const musicIcon=document.getElementById('musicIcon');
+const musicTip=document.getElementById('musicTip');
+
+// Minor pentatonic scale — dark & moody, nuit/soirée
+const scale=[220,261.63,311.13,349.23,415.3,523.25,622.25,698.46];
+
+function createReverb(ctx){
+  const conv=ctx.createConvolver();
+  const len=ctx.sampleRate*2.5;
+  const buf=ctx.createBuffer(2,len,ctx.sampleRate);
+  for(let c=0;c<2;c++){
+    const d=buf.getChannelData(c);
+    for(let i=0;i<len;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2.5);
+  }
+  conv.buffer=buf;return conv;
+}
+
+function playNote(freq,time,dur,vol=.08){
+  const osc=audioCtx.createOscillator();
+  const g=audioCtx.createGain();
+  const rev=createReverb(audioCtx);
+  const revGain=audioCtx.createGain();revGain.gain.value=.35;
+  osc.type='sine';
+  osc.frequency.setValueAtTime(freq,time);
+  // soft detune for warmth
+  osc.detune.setValueAtTime((Math.random()-.5)*8,time);
+  g.gain.setValueAtTime(0,time);
+  g.gain.linearRampToValueAtTime(vol,time+.05);
+  g.gain.exponentialRampToValueAtTime(.001,time+dur);
+  osc.connect(g);
+  g.connect(masterGain);
+  g.connect(rev);rev.connect(revGain);revGain.connect(masterGain);
+  osc.start(time);osc.stop(time+dur+.1);
+}
+
+function playLoop(){
+  if(!playing)return;
+  const now=audioCtx.currentTime;
+  const bpm=78, beat=60/bpm;
+  // dreamy arpeggio pattern — chill, nocturne
+  const pattern=[0,2,4,3,1,4,2,0,5,3,1,4];
+  pattern.forEach((idx,i)=>{
+    const freq=scale[idx%scale.length];
+    const t=now+i*beat*.5;
+    playNote(freq,t,beat*1.2,.07+(Math.random()*.03));
+    // sub bass every 4 beats
+    if(i%4===0) playNote(scale[0]/2,t,beat*1.8,.055);
+  });
+  const loopDur=pattern.length*beat*.5;
+  loopTimeout=setTimeout(playLoop,(loopDur-.2)*1000);
+}
+
+musicBtn.addEventListener('click',e=>{
+  e.stopPropagation();
+  if(!playing){
+    playing=true;
+    if(!audioCtx) audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+    if(audioCtx.state==='suspended') audioCtx.resume();
+    masterGain=audioCtx.createGain();masterGain.gain.value=.7;masterGain.connect(audioCtx.destination);
+    musicBtn.classList.add('playing');
+    musicIcon.textContent='🎶';
+    musicTip.textContent='Pause la musique';
+    playLoop();
+  } else {
+    playing=false;
+    clearTimeout(loopTimeout);
+    if(masterGain){masterGain.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+.4);}
+    musicBtn.classList.remove('playing');
+    musicIcon.textContent='🎵';
+    musicTip.textContent='Activer la musique';
+  }
+});
+</script>
+</body>
+</html>
